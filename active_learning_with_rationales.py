@@ -413,7 +413,7 @@ def save_result(result, filename='result.txt'):
             
         header = 'train#\tM_accu\tM_auc'
         f.write('\t'.join([header]*result.shape[0]) + '\n')
-        for row in map(None, *ls_all_results):
+        for row in ls_all_results:
             f.write('\t'.join([str(item) if item is not None else ' ' for item in row]) + '\n')
 
 

@@ -38,8 +38,8 @@ def RandomBootstrap(X_pool, y_pool, size, balance, seed=0):
     pool_set = np.arange(poolsize)
     
     if balance: # select 1/2 * size from each class
-        class0_size = size / 2
-        class1_size = size - class0_size
+        class0_size = (int)(size / 2)
+        class1_size = (int)(size - class0_size)
         class0_indices = np.nonzero(y_pool == 0)[0]
         class1_indices = np.nonzero(y_pool == 1)[0]
         
