@@ -27,9 +27,9 @@ def RandomBootstrap(X_pool, y_pool, size, balance, seed=0):
     '''
     Assume the task is binary classification
     '''
-    print '-' * 50
-    print 'Starting bootstrap...'
-    print 'Initial training set size = %d' % size
+    print ('-' * 50)
+    print ('Starting bootstrap...')
+    print ('Initial training set size = %d' % size)
     start = time()    
     
     random_state = np.random.RandomState(seed=seed)
@@ -53,7 +53,7 @@ def RandomBootstrap(X_pool, y_pool, size, balance, seed=0):
     
     pool_set = np.setdiff1d(pool_set, training_set)
     
-    print 'bootstraping took %0.2fs.' % (time() - start)
+    print ('bootstraping took %0.2fs.' % (time() - start))
     
     return (training_set.tolist(), pool_set.tolist())
 

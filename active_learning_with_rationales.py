@@ -31,8 +31,8 @@ def learn(model_type, X_pool, y_pool, X_test, y_test, training_set, pool_set, fe
           Zaidan_etal_C=1, Zaidan_etal_Ccontrast=1, Zaidan_etal_mu=1, Debug=False):
     
     start = time()
-    print '-' * 50
-    print 'Starting Active Learning...'
+    print ('-' * 50)
+    print ('Starting Active Learning...')
     
     _, num_feat = X_pool.shape
     model_scores = {'auc':[], 'accu':[]}
@@ -303,7 +303,7 @@ def learn(model_type, X_pool, y_pool, X_test, y_test, training_set, pool_set, fe
         num_training_samples.append(number_of_docs)
         
   
-    print 'Active Learning took %2.2fs' % (time() - start)
+    print ('Active Learning took %2.2fs' % (time() - start))
     
     return (np.array(num_training_samples), model_scores)
 
@@ -344,15 +344,15 @@ def run_trials(model_type, num_trials, dataset, tfidf, selection_strategy, metri
     tfidft = TfidfTransformer()
     
     if tfidf:
-        print "Performing tf-idf transformation"
+        print ("Performing tf-idf transformation")
         X_pool = tfidft.fit_transform(X_pool)
         X_test = tfidft.transform(X_test)        
     
     result = np.ndarray(num_trials, dtype=object)
     
     for i in range(num_trials):
-        print '-' * 50
-        print 'Starting Trial %d of %d...' % (i + 1, num_trials)
+        print ('-' * 50)
+        print ('Starting Trial %d of %d...' % (i + 1, num_trials))
 
         trial_seed = seed + i # initialize the seed for the trial
         
@@ -397,8 +397,8 @@ def save_result(result, filename='result.txt'):
     # training sample index, IM_accu, FM_accu, PM_accu, IM_acu, FM_auc, PM_auc, c0_features_discovered so far,
     # c1_features_discovered so far, num_docs_covered, and transition phases for cover_then_disagree approach
     # if the approach is not cover_then_disagree, no transition is saved
-    print '-' * 50
-    print 'saving result into \'%s\'' % filename
+    print ('-' * 50)
+    print ('saving result into \'%s\'' % filename)
     
     ls_all_results = []
     with open(filename, 'w') as f:
@@ -440,8 +440,8 @@ def save_result_num_a_feat_chosen(result, feat_names, feat_freq):
     
     filename='_'.join(['_'.join(args.dataset), args.strategy, args.metric, 'w_r={:0.2f}'.format(args.w_r), 'w_o={:0.2f}'.format(args.w_o), "num_a_feat_chosen", 'batch-result.txt'])
     
-    print '-' * 50
-    print 'saving result into \'%s\'' % filename
+    print ('-' * 50)
+    print ('saving result into \'%s\'' % filename)
             
     with open(filename, 'w') as f:
         f.write("ID\tNAME\tFREQ\tCOUNT\n")
@@ -500,14 +500,14 @@ if __name__ == '__main__':
                 budget=args.budget, step_size=args.step_size, topk=args.topk_unc, \
                 w_o=args.w_o, w_r=args.w_r, seed=args.seed, lr_C=args.lr_C, svm_C=args.svm_C, Debug=args.debug)
     
-    print result
+    print (result)
     
     for res in result:
         nt, per = res
         accu = per['accu']
         auc = per['auc']
         for i in range(len(nt)):
-            print "%d\t%0.4f\t%0.4f" %(nt[i], accu[i], auc[i])
+            print ("%d\t%0.4f\t%0.4f" %(nt[i], accu[i], auc[i]))
     
     
     if args.model_type=='Melville_etal':

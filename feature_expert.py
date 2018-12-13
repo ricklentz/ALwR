@@ -37,8 +37,8 @@ class feature_expert(object):
         self.rg = np.random.RandomState(seed)        
         self.class1_prob = np.sum(y)/float(len(y))
         
-        print '-' * 50
-        print 'Starting Feature Expert Training ...'
+        print ('-' * 50)
+        print ('Starting Feature Expert Training ...')
         start = time()
         
         if metric == 'mutual_info':
@@ -97,10 +97,10 @@ class feature_expert(object):
             self.feature_rank = (new_class0_feats, new_class1_feats)
         
         
-        print 'Feature Expert has deemed %d words to be of label 0' % len(self.feature_rank[0])
-        print 'Feature Expert has deemed %d words to be of label 1' % len(self.feature_rank[1])
+        print ('Feature Expert has deemed %d words to be of label 0' % len(self.feature_rank[0]))
+        print ('Feature Expert has deemed %d words to be of label 1' % len(self.feature_rank[1]))
         
-        print 'Feature Expert trained in %0.2fs' % (time() - start)
+        print ('Feature Expert trained in %0.2fs' % (time() - start))
     
     def class0_features_by_rank(self):
         return self.feature_rank[0]
@@ -109,8 +109,8 @@ class feature_expert(object):
         return self.feature_rank[1]
     
     def info(self):
-        print 'feature expert is trained from %d samples on % features using metric \'%s\'' % \
-            (self.sample_size, self.num_features, self.metric)
+        print ('feature expert is trained from %d samples on % features using metric \'%s\'' % \
+            (self.sample_size, self.num_features, self.metric))
     
     def rank_by_mutual_information(self, X, y):
         self.feature_count = self.count_features(X, y)
@@ -282,30 +282,30 @@ def read_features(filename='feature.txt'):
 
 def print_features(feature_names, feature_expert, top_n, doc, X, y, X_text):
     class_label = {0:'negative', 1:'positive'}
-    print 'Document #%d:' % doc
-    print '-' * 50
-    print X_text[doc]
-    print '-' * 50
-    print 'Instance Expert: %s' % class_label[y[doc]]
+    print ('Document #%d:' % doc)
+    print ('-' * 50)
+    print (X_text[doc])
+    print ('-' * 50)
+    print ('Instance Expert: %s' % class_label[y[doc]])
     
     top_n_features = feature_expert.top_n_features(X[doc], y[doc], top_n)
     top_n_features_str = [feature_names[f] for f in top_n_features]
-    print 'Feature Expert Top(%d): %s' % (top_n, ', '.join(top_n_features_str))
+    print ('Feature Expert Top(%d): %s' % (top_n, ', '.join(top_n_features_str)))
 
 def print_all_features(feature_names, feature_expert, top_n, doc, X, y, X_text):
     class_label = {0:'negative', 1:'positive'}
-    print 'Document #%d:' % doc
-    print '-' * 50
-    print X_text[doc]
-    print '-' * 50
-    print 'Instance Expert: %s' % class_label[y[doc]]
+    print ('Document #%d:' % doc)
+    print ('-' * 50)
+    print (X_text[doc])
+    print ('-' * 50)
+    print ('Instance Expert: %s' % class_label[y[doc]])
     
     top_n_class0_features = feature_expert.top_n_class0_features(X[doc], top_n)
     top_n_class0_features_str = [feature_names[f] for f in top_n_class0_features]
     top_n_class1_features = feature_expert.top_n_class1_features(X[doc], top_n)
     top_n_class1_features_str = [feature_names[f] for f in top_n_class1_features]
-    print 'Feature Expert Negative Top(%d): %s' % (top_n, ', '.join(top_n_class0_features_str))
-    print 'Feature Expert Positive Top(%d): %s' % (top_n, ', '.join(top_n_class1_features_str))
+    print ('Feature Expert Negative Top(%d): %s' % (top_n, ', '.join(top_n_class0_features_str)))
+    print ('Feature Expert Positive Top(%d): %s' % (top_n, ', '.join(top_n_class1_features_str)))
     
 def check_feature_expert(dataset='imdb', metric='mutual_info', top_n=10, smoothing=1e-6, C=0.1, \
                          vect=CountVectorizer(min_df=5, max_df=1.0, binary=False)):
@@ -319,13 +319,13 @@ def check_feature_expert(dataset='imdb', metric='mutual_info', top_n=10, smoothi
     fe = feature_expert(X_pool, y_pool, metric, smoothing, C)
     doc_ids = np.random.permutation(np.arange(X_pool.shape[0]))
     
-    print '\n'
-    print '=' * 50
+    print ('\n')
+    print ('=' * 50)
     
     for doc in doc_ids:
         print_all_features(feature_names, fe, top_n, doc, X_pool, y_pool, X_pool_docs)
         
-        print '=' * 50
+        print ('=' * 50)
         ch = raw_input('Display the next document? Press Enter to continue or type \'n\' to exit...  ')
         
         if ch == 'n':
@@ -344,7 +344,7 @@ def output_features(filename='features.txt', dataset='imdb', metric='L1', smooth
     feature_names = vect.get_feature_names()
     fe = feature_expert(X_pool, y_pool, metric, smoothing, C)
 
-    print 'saving into \'%s\'...' % filename
+    print ('saving into \'%s\'...' % filename)
     with open(filename, 'w') as f:
         f.write('-' * 50 + '\n')
         f.write('class 0 features:\n')
