@@ -13,7 +13,7 @@ from sklearn.svm import LinearSVC
 from sklearn import svm
 from sklearn import metrics
 from models import FeatureMNBUniform, PoolingMNB
-
+from numpy.random import RandomState
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, TfidfTransformer
 from load_datasets import load_imdb, load_newsgroups, load_nova
 from feature_expert import feature_expert
@@ -51,6 +51,8 @@ def learn(model_type, X_pool, y_pool, X_test, y_test, training_set, pool_set, fe
     
     X_train = None
     y_train = []
+
+    sample_weight = list()
     
     if model_type=='Melville_etal':      
         # create feature model  
@@ -137,21 +139,21 @@ def learn(model_type, X_pool, y_pool, X_test, y_test, training_set, pool_set, fe
     # Train the model
     
     if model_type=='lrl2':
-        random_state = np.random.RandomState(seed=seed)
+        random_state = RandomState(seed=seed)
         model = LogisticRegression(C=lr_C, penalty='l2', random_state=random_state)
     elif model_type=='lrl1':
-        random_state = np.random.RandomState(seed=seed)
+        random_state = RandomState(seed=seed)
         model = LogisticRegression(C=lr_C, penalty='l1', random_state=random_state)        
     elif model_type=='mnb':        
         model = MultinomialNB(alpha=alpha)        
     elif model_type=='svm_linear':
-        random_state = np.random.RandomState(seed=seed)
+        random_state = RandomState(seed=seed)
         model = LinearSVC(C=svm_C, random_state=random_state)
     elif model_type=='Melville_etal':
         instance_model=MultinomialNB(alpha=alpha)        
         model = PoolingMNB()
     elif model_type=='Zaidan_etal':
-        random_state = np.random.RandomState(seed=seed)        
+        random_state = RandomState(seed=seed)        
         model = svm.SVC(kernel='linear', C=svm_C, random_state=random_state)
         
     if model_type=='Melville_etal':                
@@ -271,21 +273,21 @@ def learn(model_type, X_pool, y_pool, X_test, y_test, training_set, pool_set, fe
 
         
         if model_type=='lrl2':
-            random_state = np.random.RandomState(seed=seed)
+            random_state = RandomState(seed=seed)
             model = LogisticRegression(C=lr_C, penalty='l2', random_state=random_state)
         elif model_type=='lrl1':
-            random_state = np.random.RandomState(seed=seed)
+            random_state = RandomState(seed=seed)
             model = LogisticRegression(C=lr_C, penalty='l1', random_state=random_state)        
         elif model_type=='mnb':        
             model = MultinomialNB(alpha=alpha)        
         elif model_type=='svm_linear':
-            random_state = np.random.RandomState(seed=seed)
+            random_state = RandomState(seed=seed)
             model = LinearSVC(C=svm_C, random_state=random_state)
         elif model_type=='Melville_etal':
             instance_model=MultinomialNB(alpha=alpha)        
             model = PoolingMNB()
         elif model_type=='Zaidan_etal':
-            random_state = np.random.RandomState(seed=seed)        
+            random_state = RandomState(seed=seed)        
             model = svm.SVC(kernel='linear', C=svm_C, random_state=random_state)                                                          
 
         if model_type=='Melville_etal':                            

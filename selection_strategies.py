@@ -17,7 +17,7 @@ sys.path.append(os.path.abspath("."))
 from time import time
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
-from imdb import load_imdb
+from numpy.random import RandomState
 from feature_expert import print_all_features
 from sklearn.naive_bayes import MultinomialNB
 #from models import FeatureMNBUniform, FeatureMNBWeighted, PoolingMNB
@@ -32,7 +32,7 @@ def RandomBootstrap(X_pool, y_pool, size, balance, seed=0):
     print ('Initial training set size = %d' % size)
     start = time()    
     
-    random_state = np.random.RandomState(seed=seed)
+    random_state = RandomState(seed=seed)
     poolsize = y_pool.shape[0]
     
     pool_set = np.arange(poolsize)
@@ -59,7 +59,7 @@ def RandomBootstrap(X_pool, y_pool, size, balance, seed=0):
 
 class RandomStrategy(object):
     def __init__(self, seed=0):
-        self.rgen = np.random.RandomState(seed)
+        self.rgen = RandomState(seed)
 
     def choices(self, model, X, pool, k): 
         return self.rgen.permutation(pool)[:k]

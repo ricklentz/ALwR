@@ -8,11 +8,13 @@ import os
 sys.path.append(os.path.abspath("."))
 
 from time import time
-from imdb import load_imdb, load_newsgroups
+#from imdb import load_imdb, load_newsgroups
+from load_datasets import load_imdb, load_newsgroups, load_nova
 import numpy as np
 import scipy.sparse as sp
 from sklearn import linear_model
 from sklearn.feature_extraction.text import CountVectorizer
+from numpy.random import RandomState
 from sklearn.feature_selection import chi2
 import warnings
 warnings.filterwarnings("ignore", category=sp.SparseEfficiencyWarning)
@@ -34,7 +36,7 @@ class feature_expert(object):
         self.smoothing = smoothing
         self.feature_rank = ([], [])
         self.seed = seed
-        self.rg = np.random.RandomState(seed)        
+        self.rg = RandomState(seed)        
         self.class1_prob = np.sum(y)/float(len(y))
         
         print ('-' * 50)
@@ -326,7 +328,7 @@ def check_feature_expert(dataset='imdb', metric='mutual_info', top_n=10, smoothi
         print_all_features(feature_names, fe, top_n, doc, X_pool, y_pool, X_pool_docs)
         
         print ('=' * 50)
-        ch = raw_input('Display the next document? Press Enter to continue or type \'n\' to exit...  ')
+        ch = input('Display the next document? Press Enter to continue or type \'n\' to exit...  ')
         
         if ch == 'n':
             break

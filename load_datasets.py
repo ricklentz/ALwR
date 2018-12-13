@@ -9,7 +9,6 @@ from sklearn import linear_model
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.datasets import load_svmlight_file
-from sklearn.cross_validation import train_test_split
 from sklearn.model_selection import ShuffleSplit
 
 import warnings
@@ -194,7 +193,9 @@ def load_nova(filepath='./text_datasets/nova/nova.dat', n_features=16969, test_s
     print( "Loading the NOVA dataset...")
     t0 = time()
 
-    X_pool, y_pool, query_id = load_svmlight_file(filepath, n_features)
+    data= load_svmlight_file(filepath, n_features)
+    X_pool = data[0]
+    y_pool = data[1]
 
     duration = time() - t0
     print ("Loading took %0.2fs." % duration)
