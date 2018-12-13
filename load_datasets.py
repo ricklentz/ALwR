@@ -9,7 +9,8 @@ from sklearn import linear_model
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.datasets import load_svmlight_file
-from sklearn.cross_validation import train_test_split, ShuffleSplit
+from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import ShuffleSplit
 
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -193,18 +194,19 @@ def load_nova(filepath='./text_datasets/nova/nova.dat', n_features=16969, test_s
     print( "Loading the NOVA dataset...")
     t0 = time()
 
-    X_pool, y_pool = load_svmlight_file(filepath, n_features)
+    X_pool, y_pool, query_id = load_svmlight_file(filepath, n_features)
 
     duration = time() - t0
     print ("Loading took %0.2fs." % duration)
     
     y_pool[y_pool==-1] = 0
-    indices = ShuffleSplit(X_pool.shape[0], n_iter=1, test_size=test_split, indices=True, random_state=rnd)
-    for train_ind, test_ind in indices:
-        X_train = X_pool[train_ind]
-        y_train = y_pool[train_ind]
-        X_test = X_pool[test_ind]
-        y_test = y_pool[test_ind]
+   
+    rs = ShuffleSplit(n_splits=1, test_size=test_split,random_state=rnd)
+    for train_index, test_index in rs.split(X_pool):
+        X_train = X_pool[train_index]
+        y_train = y_pool[train_index]
+        X_test = X_pool[test_index]
+        y_test = y_pool[test_index]
     
     return (X_train, y_train, X_test, y_test)
 
